@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:EasyShop.Models"
+             xmlns:vm="clr-namespace:EasyShop.ViewModels"
+             x:Class="EasyShop.Views.CustomersPage"
+             x:DataType="vm:CustomersViewModel"
+             Title="Clientes (SQL)">
+    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="12">
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+            <Label Text="Novo cliente" FontSize="20" FontAttributes="Bold" />
+            <Entry Placeholder="Nome completo" Text="{Binding Name}" />
+            <Entry Placeholder="E-mail" Keyboard="Email" Text="{Binding Email}" />
+            <Button Text="Salvar cliente" Command="{Binding SaveCommand}" />
+            <Label Text="{Binding Status}" FontSize="13" />
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Customers}">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum cliente cadastrado." HorizontalOptions="Center" Margin="0,24" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Customer">
+                    <Border Padding="12" Margin="0,4" StrokeShape="RoundRectangle 10">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8">
+                            <Label Grid.Row="0" Text="{Binding Name}" FontAttributes="Bold" FontSize="16" />
+                            <Label Grid.Row="1" Text="{Binding Email}" FontSize="13" />
+                            <Button Grid.RowSpan="2" Grid.Column="1" Text="Excluir"
+                                    FontSize="12" Padding="8,0" HeightRequest="36"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CustomersViewModel}}, Path=DeleteCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
